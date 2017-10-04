@@ -1,1 +1,1 @@
-import './FirstApp';
+import './GlobalTalk';

@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 import Login from './src/components/Login/Login';
-export default class FirstApp extends Component {
+export default class GlobalTalk extends Component {
   render() {
     return (
       <Login />
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('FirstApp', () => FirstApp);
+AppRegistry.registerComponent('GlobalTalk', () => GlobalTalk);
