@@ -1,0 +1,3 @@
+rootProject.name = 'GlobalTalk'
+
+include ':app'
