@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, View, Button} from 'react-native';
-import Teste from "../Login/Teste";
 const util = require('util');
 
 export default class SecondScreen extends React.Component {

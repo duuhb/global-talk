@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
+import { StyleSheet, View, Image, Button, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import DropdownAlert from 'react-native-dropdownalert';
 
 export default class Login extends Component{
     static navigationOptions = {
@@ -11,6 +12,23 @@ export default class Login extends Component{
         password: ''
     };
     login(){
+        try {
+            let response = await fetch('https://mywebsite.com/endpoint/', {
+                method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            })
+            let responseJson = await response.json();
+            return responseJson.movies;
+        } catch(error) {
+            console.error(error);
+        }
         let loginTry = fetch('https://mywebsite.com/endpoint/', {
             method: 'POST',
             headers: {
@@ -21,17 +39,21 @@ export default class Login extends Component{
                 username: this.state.username,
                 password: this.state.password
             })
-        });
-        console.log(loginTry);
-        return this.props
-            .navigation
-            .dispatch(NavigationActions.reset(
-                {
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({ routeName: 'First'})
-                    ]
-                }));
+        }).then((response) => console.log(response))
+            .then((responseJson) => console.log(responseJson))
+            .catch((error) => {
+                console.error(error)
+            });
+        // console.log(loginTry);
+        // return this.props
+        //     .navigation
+        //     .dispatch(NavigationActions.reset(
+        //         {
+        //             index: 0,
+        //             actions: [
+        //                 NavigationActions.navigate({ routeName: 'First'})
+        //             ]
+        //         }));
     }
 
     render() {
@@ -42,65 +64,70 @@ export default class Login extends Component{
                 keyboardVerticalOffset={-500}
                 style={styles.container}
             >
-              <View style={styles.logoContainer}>
-                <Image
-                    style={styles.logo}
-                    source={require('../../images/login.png')}
-                />
-                  {/* <Text style={styles.title}>An app made for github using React Native</Text> */}
-              </View>
-              <View style={styles.formContainer}>
-                <StatusBar
-                    barStyle="light-content"
-                />
-                <TextInput
-                    placeholder="username or email"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="next"
-                    onSubmitEditing={() => this.passwordInput.focus()}
-                    blurOnSubmit={false}
-                    keyboardType="email-address"
-                    style={styles.input}
-                    onChangeText={(value) => this.setState({username: value})}
-                    value={this.state.username}
-                />
-                <TextInput
-                    placeholder="password"
-                    placeholderTextColor="rgba(255,255,255,0.7)"
-                    returnKeyType="go"
-                    secureTextEntry
-                    style={styles.input}
-                    ref={(input) => this.passwordInput = input}
-                    onChangeText={(value) => this.setState({password: value})}
-                    value={this.state.password}
-                />
+                <View style={styles.logoContainer}>
+                    <DropdownAlert ref={ref => this.dropdown = ref} />
+                    <Image
+                        style={styles.logo}
+                        source={require('../../images/login.png')}
+                    />
+                    {/* <Text style={styles.title}>An app made for github using React Native</Text> */}
+                </View>
+                <View style={styles.formContainer}>
+                    <StatusBar
+                        barStyle="light-content"
+                    />
+                    <TextInput
+                        placeholder="username or email"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="next"
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                        blurOnSubmit={false}
+                        keyboardType="email-address"
+                        style={styles.input}
+                        onChangeText={(value) => this.setState({username: value})}
+                        value={this.state.username}
+                    />
+                    <TextInput
+                        placeholder="password"
+                        placeholderTextColor="rgba(255,255,255,0.7)"
+                        returnKeyType="go"
+                        secureTextEntry
+                        style={styles.input}
+                        ref={(input) => this.passwordInput = input}
+                        blurOnSubmit={true}
+                        onSubmitEditing={() => this.login()}
+                        onChangeText={(value) => this.setState({password: value})}
+                        value={this.state.password}
+                    />
 
-                <TouchableOpacity style={styles.buttonContainer}>
-                  <Text
-                      style={styles.buttonText}
-                      onPress={
+                    <TouchableOpacity>
+                        <Button
+                            onPress={
 
-                          () => {
-                              if(this.state.username == '')
-                              {
-                                  Alert.alert('Erro', 'O username deve ser preenchido.');
+                                () => {
+                                    if(this.state.username == '')
+                                    {
+                                        this.dropdown.alertWithType('error', 'Dados inválidos', 'O username deve ser preenchido!');
 
-                                  return;
-                              }
+                                        return;
+                                    }
 
-                              if(this.state.password == '')
-                              {
-                                  Alert.alert('Erro', 'A senha deve ser preenchida.');
+                                    if(this.state.password == '')
+                                    {
+                                        this.dropdown.alertWithType('error', 'Dados inválidos', 'A senha deve ser preenchida!');
 
-                                  return;
-                              }
+                                        return;
+                                    }
 
-                              this.login()
-                          }
-                      }
-                  >LOGIN</Text>
-                </TouchableOpacity>
-              </View>
+                                    this.login()
+                                }
+                            }
+                            title={'LOGIN'}
+                            color={'#2980b9'}
+                        />
+                    </TouchableOpacity>
+
+                </View>
             </KeyboardAvoidingView>
         );
     }
