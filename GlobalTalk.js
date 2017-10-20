@@ -6,7 +6,7 @@ import {
     Text,
     View
 } from 'react-native';
-import Login from './src/components/Login/Login';
+import Login from './src/components/modules/Login/Login';
 import { StackNavigator } from 'react-navigation';
 import FirstScreen from './src/components/screens/FirstScreen';
 import SecondScreen from './src/components/screens/SecondScreen';
