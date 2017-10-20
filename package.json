@@ -18,7 +18,9 @@
     "babel-preset-react-native": "4.0.0",
     "jest": "21.2.1",
     "react-test-renderer": "16.0.0-alpha.12",
-    "jest-expo": "~21.0.2"
+    "jest-expo": "~21.0.2",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "react-native-scripts": "1.5.0"
   },
   "jest": {
     "preset": "react-native"

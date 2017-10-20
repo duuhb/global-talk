@@ -11,49 +11,43 @@ export default class Login extends Component{
         username: '',
         password: ''
     };
-    login(){
+    async login(){
         try {
-            let response = await fetch('https://mywebsite.com/endpoint/', {
+            let response = await fetch('https://wwwdesenv.unochapeco.edu.br/minhauno-bonetti', {
                 method: 'POST',
-                    headers: {
+                headers: {
                     'Accept': 'application/json',
-                        'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     username: this.state.username,
                     password: this.state.password
                 })
-            })
-            let responseJson = await response.json();
-            return responseJson.movies;
-        } catch(error) {
-            console.error(error);
-        }
-        let loginTry = fetch('https://mywebsite.com/endpoint/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password
-            })
-        }).then((response) => console.log(response))
-            .then((responseJson) => console.log(responseJson))
-            .catch((error) => {
-                console.error(error)
             });
-        // console.log(loginTry);
-        // return this.props
-        //     .navigation
-        //     .dispatch(NavigationActions.reset(
-        //         {
-        //             index: 0,
-        //             actions: [
-        //                 NavigationActions.navigate({ routeName: 'First'})
-        //             ]
-        //         }));
+            if(response.status == 200){
+                try{
+                    let responseJson = await response.json();
+                    if(responseJson.login == 'ok'){
+                        return this.props
+                            .navigation
+                            .dispatch(NavigationActions.reset(
+                                {
+                                    index: 0,
+                                    actions: [
+                                        NavigationActions.navigate({ routeName: 'First', params: {token: responseJson.token}})
+                                    ]
+                                }));
+                    }else{
+                        this.dropdown.alertWithType('error', 'Dados inválidos', 'Usuário ou senha incorretos');
+                    }
+                }catch (e){
+                    this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
+                }
+            }
+            return false;
+        } catch(error) {
+            this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
+        }
     }
 
     render() {
@@ -95,7 +89,7 @@ export default class Login extends Component{
                         style={styles.input}
                         ref={(input) => this.passwordInput = input}
                         blurOnSubmit={true}
-                        onSubmitEditing={() => this.login()}
+                        onSubmitEditing={()  => this.login()}
                         onChangeText={(value) => this.setState({password: value})}
                         value={this.state.password}
                     />
