@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import Login from './src/components/modules/Login/Login';
 import { StackNavigator } from 'react-navigation';
-import FirstScreen from './src/components/screens/FirstScreen';
-import SecondScreen from './src/components/screens/SecondScreen';
+import Contatos from './src/components/modules/Contatos/Contatos';
+import Chat from './src/components/modules/Chat/Chat';
 
 const GlobalTalk = StackNavigator({
     Login: {screen: Login},
-    First: {screen: FirstScreen},
-    Second: {screen: SecondScreen},
+    Contatos: {screen: Contatos},
+    Chat: {screen: Chat},
 });
 
 export default GlobalTalk;

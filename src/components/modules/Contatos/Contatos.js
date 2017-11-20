@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, View, Button} from 'react-native';
 
-export default class FirstScreen extends React.Component {
+export default class Contatos extends React.Component {
     static navigationOptions = {
-        title: 'First screen',
+        title: 'Contatos',
         headerLeft: null
     };
     render(){
@@ -11,12 +11,12 @@ export default class FirstScreen extends React.Component {
 
         return(
             <View>
-                <Text>This is screen 1</Text>
+                <Text>Esta é a tela de contatos</Text>
                 <Button
                     onPress={
-                        () => navigate("Second", {name: 'teste', email: 'qqqqqq'})
+                        () => navigate("Chat")
                     }
-                    title = "go to Screen2"
+                    title = "Ir para a tela de chat"
                 />
             </View>
         );

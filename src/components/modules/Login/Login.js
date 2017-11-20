@@ -12,42 +12,43 @@ export default class Login extends Component{
         password: ''
     };
     async login(){
-        try {
-            let response = await fetch('https://wwwdesenv.unochapeco.edu.br/minhauno-bonetti', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: this.state.username,
-                    password: this.state.password
-                })
-            });
-            if(response.status == 200){
-                try{
-                    let responseJson = await response.json();
-                    if(responseJson.login == 'ok'){
+        // try {
+            // let response = await fetch('https://wwwdesenv.unochapeco.edu.br/minhauno-bonetti', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         username: this.state.username,
+            //         password: this.state.password
+            //     })
+            // });
+            // if(response.status == 200){
+            //     try{
+            //         let responseJson = await response.json();
+            //         if(responseJson.login == 'ok'){
                         return this.props
                             .navigation
                             .dispatch(NavigationActions.reset(
                                 {
                                     index: 0,
                                     actions: [
-                                        NavigationActions.navigate({ routeName: 'First', params: {token: responseJson.token}})
+                                        // NavigationActions.navigate({ routeName: 'First', params: {token: responseJson.token}})
+                                        NavigationActions.navigate({ routeName: 'Contatos'})
                                     ]
                                 }));
-                    }else{
-                        this.dropdown.alertWithType('error', 'Dados inválidos', 'Usuário ou senha incorretos');
-                    }
-                }catch (e){
-                    this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
-                }
-            }
-            return false;
-        } catch(error) {
-            this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
-        }
+        //             }else{
+        //                 this.dropdown.alertWithType('error', 'Dados inválidos', 'Usuário ou senha incorretos');
+        //             }
+        //         }catch (e){
+        //             this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
+        //         }
+        //     }
+        //     return false;
+        // } catch(error) {
+        //     this.dropdown.alertWithType('error', 'Erro ao efetuar login', 'Por favor, tente novamente');
+        // }
     }
 
     render() {
